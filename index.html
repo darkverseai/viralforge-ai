@@ -11,8 +11,8 @@
 body{
     margin:0;
     padding:0;
-    font-family:Arial;
     background:#050505;
+    font-family:Arial;
     color:white;
 }
 
@@ -39,7 +39,7 @@ h1{
     background:#0b0b0b;
     padding:25px;
     border-radius:22px;
-    box-shadow:0 0 25px rgba(0,255,255,0.25);
+    box-shadow:0 0 25px rgba(0,255,255,0.2);
 }
 
 input, select{
@@ -62,43 +62,34 @@ button{
     border-radius:14px;
     background:#00ffff;
     color:black;
-    font-size:22px;
+    font-size:20px;
     font-weight:bold;
     cursor:pointer;
-    transition:0.3s;
-}
-
-button:hover{
-    transform:scale(1.03);
 }
 
 .result-box{
     margin-top:30px;
-    background:#0f0f0f;
+    background:#111;
     padding:22px;
     border-radius:18px;
     text-align:left;
     line-height:1.8;
-    box-shadow:0 0 20px rgba(0,255,255,0.15);
     white-space:pre-wrap;
 }
 
-.loading{
-    margin-top:25px;
+.result-box h2{
     color:#00ffff;
-    font-size:18px;
+}
+
+.copy-btn{
+    background:#222;
+    color:#00ffff;
+    margin-top:20px;
 }
 
 .footer{
     margin-top:35px;
-    color:#777;
-}
-
-.copy-btn{
-    margin-top:20px;
-    background:#222;
-    color:#00ffff;
-    font-size:16px;
+    color:#666;
 }
 
 </style>
@@ -111,19 +102,21 @@ button:hover{
 <h1>🔥 ViralForge AI</h1>
 
 <p class="subtitle">
-AI Tool for Viral YouTube Shorts, Reels & Titles
+Create Viral YouTube Shorts Ideas Instantly
 </p>
 
 <div class="box">
 
 <select id="category">
-    <option>Horror</option>
-    <option>Motivation</option>
-    <option>Gaming</option>
-    <option>Facts</option>
-    <option>AI</option>
-    <option>Story</option>
-    <option>Business</option>
+
+<option>Horror</option>
+<option>Gaming</option>
+<option>Motivation</option>
+<option>Facts</option>
+<option>Story</option>
+<option>Business</option>
+<option>AI</option>
+
 </select>
 
 <input
@@ -136,120 +129,120 @@ placeholder="Enter your topic..."
 Generate Viral Content
 </button>
 
-<div id="loading" class="loading"></div>
-
 <div id="result"></div>
 
 </div>
 
 <p class="footer">
-Powered by ViralForge AI 🚀
+Made with ❤️ by ViralForge AI
 </p>
 
 </div>
 
 <script>
 
-async function generateContent(){
+function generateContent(){
 
     const topic =
-        document.getElementById("topic").value;
+    document.getElementById("topic").value;
 
     const category =
-        document.getElementById("category").value;
+    document.getElementById("category").value;
 
     const result =
-        document.getElementById("result");
-
-    const loading =
-        document.getElementById("loading");
+    document.getElementById("result");
 
     if(topic === ""){
 
-        alert("Enter a topic first");
+        alert("Enter a topic");
 
         return;
     }
 
-    loading.innerHTML =
-    "⚡ ViralForge AI is generating...";
+    const titles = [
 
-    result.innerHTML = "";
+        `${topic} Secrets Nobody Knows 😱`,
 
-    try{
+        `This ${topic} Story Will Shock You 🔥`,
 
-        const response =
-        await fetch("/api/chat",{
+        `${topic} Facts That Sound Fake 🤯`,
 
-            method:"POST",
+        `Why Everyone Is Talking About ${topic}`,
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+        `The Dark Truth About ${topic}`
 
-            body:JSON.stringify({
+    ];
 
-                message:
-`
-Generate:
-1 viral YouTube title
-1 thumbnail text
-1 hook
-1 shorts idea
-1 short script
+    const hooks = [
 
-Category:
-${category}
+        `99% people don't know this about ${topic}`,
 
-Topic:
-${topic}
-`
+        `Wait till the end 😳`,
 
-            })
+        `This changed everything...`,
 
-        });
+        `You won't believe this 🤯`
 
-        const data =
-        await response.json();
+    ];
 
-        loading.innerHTML = "";
+    const thumbs = [
 
-        result.innerHTML = `
+        `THIS CHANGED EVERYTHING`,
 
-        <div class="result-box">
+        `DON'T IGNORE THIS`,
 
-${data.reply}
+        `SECRET EXPOSED`,
 
-<button
-class="copy-btn"
-onclick="copyResult()">
-📋 Copy
-</button>
+        `VIRAL NOW`
 
-</div>
+    ];
 
-        `;
+    const randomTitle =
+    titles[Math.floor(Math.random()*titles.length)];
 
-    }catch(error){
+    const randomHook =
+    hooks[Math.floor(Math.random()*hooks.length)];
 
-        loading.innerHTML = "";
+    const randomThumb =
+    thumbs[Math.floor(Math.random()*thumbs.length)];
 
-        result.innerHTML =
+    result.innerHTML = `
 
-        `<div class="result-box">
-        Server Error ❌
-        </div>`;
+    <div class="result-box">
 
-    }
+    <h2>🔥 Viral Title</h2>
+    <p>${randomTitle}</p>
 
+    <h2>🎯 Thumbnail Text</h2>
+    <p>${randomThumb}</p>
+
+    <h2>⚡ Hook</h2>
+    <p>${randomHook}</p>
+
+    <h2>🎬 Shorts Idea</h2>
+
+    <p>
+    Create a fast-paced ${category}
+    video about ${topic}
+    using suspense, captions
+    and emotional music.
+    </p>
+
+    <button
+    class="copy-btn"
+    onclick="copyContent()">
+    📋 Copy
+    </button>
+
+    </div>
+
+    `;
 }
 
-function copyResult(){
+function copyContent(){
 
     const text =
-    document.querySelector(
-    ".result-box"
-    ).innerText;
+    document.querySelector(".result-box").innerText;
 
     navigator.clipboard.writeText(text);
 
