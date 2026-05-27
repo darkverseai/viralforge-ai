@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ViralForge AI</title>
 
@@ -19,13 +19,10 @@ body{
     padding:20px;
 }
 
-.logo{
+h1{
     text-align:center;
-    font-size:45px;
-    color:#00ffee;
-    font-weight:bold;
-    margin-top:20px;
-    text-shadow:0 0 20px #00ffee;
+    color:#00fff7;
+    text-shadow:0 0 20px #00fff7;
 }
 
 .card{
@@ -33,7 +30,7 @@ body{
     padding:20px;
     border-radius:20px;
     margin-top:20px;
-    box-shadow:0 0 20px #00ffee55;
+    box-shadow:0 0 20px rgba(0,255,247,0.3);
 }
 
 input, textarea{
@@ -41,8 +38,8 @@ input, textarea{
     padding:15px;
     margin-top:10px;
     border:none;
-    border-radius:12px;
-    background:#1a1a1a;
+    border-radius:10px;
+    background:#1b1b1b;
     color:white;
     font-size:16px;
 }
@@ -52,21 +49,27 @@ button{
     padding:15px;
     margin-top:15px;
     border:none;
-    border-radius:15px;
-    background:#00ffee;
+    border-radius:12px;
+    background:#00fff7;
     color:black;
     font-size:18px;
     font-weight:bold;
     cursor:pointer;
-    box-shadow:0 0 20px #00ffee;
 }
 
-.result{
+.output{
     margin-top:20px;
-    background:#111;
-    padding:20px;
-    border-radius:20px;
+    background:#0d0d0d;
+    padding:15px;
+    border-radius:15px;
+    line-height:1.7;
     white-space:pre-wrap;
+}
+
+.small{
+    opacity:0.7;
+    font-size:14px;
+    margin-top:10px;
 }
 </style>
 </head>
@@ -75,46 +78,53 @@ button{
 
 <div class="container">
 
-<div class="logo">
-🚀 ViralForge AI
-</div>
+<h1>🚀 ViralForge AI</h1>
 
 <div class="card">
+<h2>🔥 Viral Content Generator</h2>
 
-<h2>Generate Viral Video Idea</h2>
+<input type="text" id="topic" placeholder="Enter topic...">
 
-<input type="text" id="topic" placeholder="Enter topic">
+<button onclick="generate()">Generate Viral Ideas</button>
 
-<button onclick="generateIdea()">
-Generate
-</button>
-
-<div class="result" id="result">
-Your viral idea will appear here...
+<div class="output" id="result">
+Your viral content will appear here...
 </div>
 
+<div class="small">
+Generate titles, hooks, thumbnail text and scripts instantly.
+</div>
 </div>
 
 </div>
 
 <script>
 
-function generateIdea(){
+function generate(){
 
 let topic = document.getElementById("topic").value;
+
+if(topic==""){
+    alert("Enter a topic");
+    return;
+}
 
 let result = `
 🔥 Viral Title:
 "${topic} secrets nobody tells you!"
 
-🎬 Hook:
-"Wait till the end..."
+🎯 Thumbnail Text:
+"THIS CHANGED EVERYTHING"
 
-📈 Viral Caption:
-This will blow your mind 😱
+⚡ Hook:
+"99% people don't know this about ${topic}..."
 
-🏷 Hashtags:
-#viral #trending #fyp #shorts
+🎬 Shorts Idea:
+Make a fast-paced reel showing amazing facts about ${topic}.
+
+📝 Script:
+"Today I'm going to show you something crazy about ${topic}. 
+Watch till the end because this can completely change your thinking!"
 `;
 
 document.getElementById("result").innerText = result;
