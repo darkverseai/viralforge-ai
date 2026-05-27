@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ViralForge AI</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:#050505;
+
+color:white;
+
+min-height:100vh;
+
+overflow-x:hidden;
+
+}
+
+/* animated background */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+width:200%;
+
+height:200%;
+
+background:
+radial-gradient(#ff7b00 1px,transparent 1px);
+
+background-size:40px 40px;
+
+opacity:.08;
+
+animation:bgMove 20s linear infinite;
+
+z-index:-2;
+
+}
+
+@keyframes bgMove{
+
+0%{
+transform:translate(0,0);
+}
+
+100%{
+transform:translate(-40px,-40px);
+}
+
+}
+
+/* glow */
+
+.glow1,
+.glow2{
+
+position:fixed;
+
+width:300px;
+
+height:300px;
+
+border-radius:50%;
+
+filter:blur(120px);
+
+z-index:-1;
+
+}
+
+.glow1{
+
+background:#ff7b0033;
+
+top:-50px;
+
+left:-50px;
+
+}
+
+.glow2{
+
+background:#00c3ff33;
+
+bottom:-50px;
+
+right:-50px;
+
+}
+
+/* navbar */
+
+.navbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:20px;
+
+}
+
+.logo{
+
+font-size:32px;
+
+font-weight:bold;
+
+background:linear-gradient(
+90deg,
+#ff7b00,
+#00c3ff
+);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+.nav-btn{
+
+padding:12px 22px;
+
+border:none;
+
+border-radius:30px;
+
+background:linear-gradient(
+90deg,
+#ff7b00,
+#00c3ff
+);
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+box-shadow:
+0 0 20px #ff7b00aa;
+
+}
+
+/* hero */
+
+.hero{
+
+padding:50px 20px;
+
+text-align:center;
+
+}
+
+.hero h1{
+
+font-size:52px;
+
+margin-bottom:20px;
+
+line-height:1.2;
+
+}
+
+.gradient{
+
+background:linear-gradient(
+90deg,
+#ff7b00,
+#00c3ff
+);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+opacity:.8;
+
+max-width:700px;
+
+margin:auto;
+
+line-height:1.6;
+
+}
+
+/* tools */
+
+.tools{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:20px;
+
+padding:40px 20px;
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+.card{
+
+background:#101010;
+
+border:1px solid #222;
+
+border-radius:25px;
+
+padding:30px 20px;
+
+transition:.3s;
+
+cursor:pointer;
+
+box-shadow:
+0 0 20px #000;
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+border-color:#ff7b00;
+
+box-shadow:
+0 0 25px #ff7b00aa;
+
+}
+
+.icon{
+
+font-size:50px;
+
+margin-bottom:20px;
+
+}
+
+.card h2{
+
+font-size:24px;
+
+margin-bottom:12px;
+
+}
+
+.card p{
+
+opacity:.7;
+
+line-height:1.5;
+
+}
+
+/* generator */
+
+.generator{
+
+max-width:900px;
+
+margin:50px auto;
+
+padding:20px;
+
+}
+
+.generator-box{
+
+background:#101010;
+
+padding:25px;
+
+border-radius:25px;
+
+border:1px solid #222;
+
+box-shadow:
+0 0 25px #000;
+
+}
+
+.generator-box h2{
+
+margin-bottom:20px;
+
+font-size:32px;
+
+}
+
+textarea{
+
+width:100%;
+
+height:130px;
+
+padding:18px;
+
+border:none;
+
+outline:none;
+
+border-radius:20px;
+
+background:#0b0b0b;
+
+color:white;
+
+font-size:18px;
+
+resize:none;
+
+margin-bottom:20px;
+
+}
+
+.generate-btn{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+border-radius:20px;
+
+font-size:20px;
+
+font-weight:bold;
+
+background:linear-gradient(
+90deg,
+#ff7b00,
+#00c3ff
+);
+
+color:white;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:
+0 0 25px #ff7b00aa;
+
+}
+
+.generate-btn:hover{
+
+transform:scale(1.02);
+
+}
+
+.output{
+
+margin-top:25px;
+
+background:#0b0b0b;
+
+padding:20px;
+
+border-radius:20px;
+
+line-height:1.7;
+
+font-size:18px;
+
+min-height:100px;
+
+white-space:pre-wrap;
+
+}
+
+/* footer */
+
+.footer{
+
+text-align:center;
+
+padding:40px 20px;
+
+opacity:.5;
+
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:38px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<!-- navbar -->
+
+<div class="navbar">
+
+<div class="logo">
+🚀 ViralForge AI
+</div>
+
+<button class="nav-btn">
+Creator Tools
+</button>
+
+</div>
+
+<!-- hero -->
+
+<section class="hero">
+
+<h1>
+Create
+<span class="gradient">
+Viral Content
+</span>
+In Seconds 🔥
+</h1>
+
+<p>
+
+Generate viral YouTube titles,
+thumbnail text, reels scripts,
+hashtags and more using AI.
+
+</p>
+
+</section>
+
+<!-- tools -->
+
+<section class="tools">
+
+<div class="card">
+
+<div class="icon">🎬</div>
+
+<h2>Viral Titles</h2>
+
+<p>
+Generate click-worthy
+YouTube video titles instantly.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🖼</div>
+
+<h2>Thumbnail Text</h2>
+
+<p>
+Create emotional and viral
+thumbnail hooks.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">📜</div>
+
+<h2>Shorts Script</h2>
+
+<p>
+Generate engaging reels
+and shorts scripts.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="icon">🔥</div>
+
+<h2>Hashtags</h2>
+
+<p>
+Get trending hashtags
+for better reach.
+</p>
+
+</div>
+
+</section>
+
+<!-- generator -->
+
+<section class="generator">
+
+<div class="generator-box">
+
+<h2>
+AI Generator 🚀
+</h2>
+
+<textarea
+id="prompt"
+placeholder="Enter your video topic..."
+></textarea>
+
+<button
+class="generate-btn"
+onclick="generateContent()">
+Generate
+</button>
+
+<div
+class="output"
+id="output">
+
+Your AI results will appear here...
+
+</div>
+
+</div>
+
+</section>
+
+<!-- footer -->
+
+<div class="footer">
+
+© 2026 ViralForge AI
+
+</div>
+
+<script>
+
+async function generateContent(){
+
+const prompt =
+document.getElementById(
+"prompt"
+).value;
+
+const output =
+document.getElementById(
+"output"
+);
+
+if(!prompt){
+
+output.innerHTML =
+"⚠ Please enter a topic.";
+
+return;
+
+}
+
+output.innerHTML =
+"🤖 ViralForge AI is generating...";
+
+try{
+
+const response =
+await fetch("/api/chat",{
+
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+message:
+`Generate:
+1 Viral YouTube Title
+1 Thumbnail Text
+1 Shorts Script
+1 Hashtag set
+
+Topic:
+${prompt}`
+
+})
+
+});
+
+const data =
+await response.json();
+
+output.innerHTML =
+data.reply ||
+"No response";
+
+}catch(error){
+
+output.innerHTML =
+"Server Error ❌";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
