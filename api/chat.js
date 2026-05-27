@@ -5,44 +5,39 @@ export default async function handler(req, res) {
     const { message } = req.body;
 
     const response = await fetch(
-      "https://api.openai.com/v1/chat/completions",
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
 
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          "Content-Type": "application/json"
         },
 
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
 
-          messages: [
+          contents: [
             {
-              role: "system",
-              content:
-                "You are ViralForge AI, expert in viral YouTube Shorts content."
-            },
-
-            {
-              role: "user",
-              content: message
+              parts: [
+                {
+                  text: message
+                }
+              ]
             }
-          ],
+          ]
 
-          temperature: 0.9
-        }),
+        })
+
       }
     );
 
     const data = await response.json();
 
-    console.log(data);
+    const reply =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text
+      || "No response";
 
     res.status(200).json({
-      reply:
-        data.choices?.[0]?.message?.content ||
-        "No response from AI"
+      reply
     });
 
   } catch (error) {
