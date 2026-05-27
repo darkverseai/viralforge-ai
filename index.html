@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ViralForge AI</title>
 
 <style>
 body{
     margin:0;
-    font-family:Arial;
+    padding:0;
     background:#050505;
+    font-family:Arial;
     color:white;
 }
 
 .container{
+    width:90%;
     max-width:500px;
     margin:auto;
-    padding:20px;
+    padding-top:40px;
 }
 
 h1{
     text-align:center;
+    font-size:38px;
     color:#00fff7;
     text-shadow:0 0 20px #00fff7;
+}
+
+.subtitle{
+    text-align:center;
+    color:#aaa;
+    margin-bottom:30px;
 }
 
 .card{
     background:#111;
     padding:20px;
     border-radius:20px;
-    margin-top:20px;
-    box-shadow:0 0 20px rgba(0,255,247,0.3);
+    box-shadow:0 0 25px rgba(0,255,247,0.2);
 }
 
-input, textarea{
+input, select{
     width:100%;
-    padding:15px;
-    margin-top:10px;
+    padding:16px;
+    margin-top:15px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     background:#1b1b1b;
     color:white;
     font-size:16px;
@@ -46,30 +54,51 @@ input, textarea{
 
 button{
     width:100%;
-    padding:15px;
-    margin-top:15px;
+    padding:16px;
+    margin-top:20px;
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     background:#00fff7;
     color:black;
-    font-size:18px;
+    font-size:20px;
     font-weight:bold;
     cursor:pointer;
+    transition:0.3s;
 }
 
-.output{
-    margin-top:20px;
-    background:#0d0d0d;
-    padding:15px;
+button:hover{
+    transform:scale(1.03);
+}
+
+.result{
+    margin-top:25px;
+    background:#0c0c0c;
+    padding:20px;
     border-radius:15px;
-    line-height:1.7;
-    white-space:pre-wrap;
+    line-height:1.8;
+    display:none;
 }
 
-.small{
-    opacity:0.7;
-    font-size:14px;
+.copyBtn{
+    background:#222;
+    color:#00fff7;
     margin-top:10px;
+    font-size:15px;
+}
+
+.loading{
+    text-align:center;
+    margin-top:20px;
+    display:none;
+    color:#00fff7;
+    font-size:18px;
+}
+
+.footer{
+    text-align:center;
+    margin-top:30px;
+    color:#666;
+    font-size:14px;
 }
 </style>
 </head>
@@ -78,56 +107,116 @@ button{
 
 <div class="container">
 
-<h1>🚀 ViralForge AI</h1>
+<h1>🔥 ViralForge AI</h1>
+
+<p class="subtitle">
+AI Tool for Viral YouTube Shorts, Reels & Titles
+</p>
 
 <div class="card">
-<h2>🔥 Viral Content Generator</h2>
 
-<input type="text" id="topic" placeholder="Enter topic...">
+<select id="type">
+<option>Horror</option>
+<option>Motivation</option>
+<option>Facts</option>
+<option>Gaming</option>
+<option>Love</option>
+<option>Business</option>
+<option>Fitness</option>
+</select>
 
-<button onclick="generate()">Generate Viral Ideas</button>
+<input type="text" id="topic" placeholder="Enter your topic..." />
 
-<div class="output" id="result">
-Your viral content will appear here...
+<button onclick="generateIdea()">
+Generate Viral Content
+</button>
+
+<div class="loading" id="loading">
+⚡ Generating Viral Ideas...
 </div>
 
-<div class="small">
-Generate titles, hooks, thumbnail text and scripts instantly.
+<div class="result" id="result">
+
+<h2>🔥 Viral Title</h2>
+<p id="title"></p>
+
+<h2>🎯 Thumbnail Text</h2>
+<p id="thumb"></p>
+
+<h2>⚡ Hook</h2>
+<p id="hook"></p>
+
+<h2>🎬 Shorts Idea</h2>
+<p id="idea"></p>
+
+<h2>📝 Script</h2>
+<p id="script"></p>
+
+<button class="copyBtn" onclick="copyContent()">
+📋 Copy Content
+</button>
+
 </div>
+
+</div>
+
+<div class="footer">
+Made with ❤️ by ViralForge AI
 </div>
 
 </div>
 
 <script>
 
-function generate(){
+function generateIdea(){
 
 let topic = document.getElementById("topic").value;
+let type = document.getElementById("type").value;
 
-if(topic==""){
-    alert("Enter a topic");
-    return;
+if(topic === ""){
+alert("Please enter a topic");
+return;
 }
 
-let result = `
-🔥 Viral Title:
-"${topic} secrets nobody tells you!"
+document.getElementById("loading").style.display = "block";
+document.getElementById("result").style.display = "none";
 
-🎯 Thumbnail Text:
-"THIS CHANGED EVERYTHING"
+setTimeout(()=>{
 
-⚡ Hook:
-"99% people don't know this about ${topic}..."
+document.getElementById("loading").style.display = "none";
+document.getElementById("result").style.display = "block";
 
-🎬 Shorts Idea:
-Make a fast-paced reel showing amazing facts about ${topic}.
+document.getElementById("title").innerText =
+`${topic} Secrets Nobody Talks About!`;
 
-📝 Script:
-"Today I'm going to show you something crazy about ${topic}. 
-Watch till the end because this can completely change your thinking!"
-`;
+document.getElementById("thumb").innerText =
+`THIS CHANGED EVERYTHING`;
 
-document.getElementById("result").innerText = result;
+document.getElementById("hook").innerText =
+`99% people don't know this about ${topic}...`;
+
+document.getElementById("idea").innerText =
+`Create a fast-paced ${type} reel with shocking visuals and emotional music about ${topic}.`;
+
+document.getElementById("script").innerText =
+`Today I will show you something CRAZY about ${topic}. This secret can completely change the way you think. Watch till the end because the final fact is unbelievable!`;
+
+},2000);
+
+}
+
+function copyContent(){
+
+let text =
+document.getElementById("title").innerText + "\n\n" +
+document.getElementById("thumb").innerText + "\n\n" +
+document.getElementById("hook").innerText + "\n\n" +
+document.getElementById("idea").innerText + "\n\n" +
+document.getElementById("script").innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("Copied Successfully!");
 
 }
 
