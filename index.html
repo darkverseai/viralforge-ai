@@ -11,8 +11,8 @@
 body{
     margin:0;
     padding:0;
-    background:#050505;
     font-family:Arial;
+    background:#050505;
     color:white;
 }
 
@@ -23,26 +23,28 @@ body{
     text-align:center;
 }
 
-h1{
-    color:#00ffff;
+.logo{
     font-size:48px;
+    color:#00ffff;
     text-shadow:0 0 20px #00ffff;
+    font-weight:bold;
 }
 
 .subtitle{
-    color:#aaa;
+    color:#999;
+    margin-top:10px;
     margin-bottom:35px;
-    font-size:18px;
 }
 
-.box{
-    background:#0b0b0b;
+.card{
+    background:#101010;
     padding:25px;
     border-radius:22px;
-    box-shadow:0 0 25px rgba(0,255,255,0.2);
+    box-shadow:0 0 25px rgba(0,255,255,0.15);
 }
 
-input, select{
+select,
+input{
     width:100%;
     padding:18px;
     margin-top:15px;
@@ -67,21 +69,21 @@ button{
     cursor:pointer;
 }
 
-.result-box{
+.result{
     margin-top:30px;
     background:#111;
     padding:22px;
     border-radius:18px;
     text-align:left;
     line-height:1.8;
-    white-space:pre-wrap;
+    display:none;
 }
 
-.result-box h2{
+.result h2{
     color:#00ffff;
 }
 
-.copy-btn{
+.copyBtn{
     background:#222;
     color:#00ffff;
     margin-top:20px;
@@ -99,13 +101,15 @@ button{
 
 <div class="container">
 
-<h1>🔥 ViralForge AI</h1>
+<div class="logo">
+🔥 ViralForge AI
+</div>
 
 <p class="subtitle">
 Create Viral YouTube Shorts Ideas Instantly
 </p>
 
-<div class="box">
+<div class="card">
 
 <select id="category">
 
@@ -113,8 +117,8 @@ Create Viral YouTube Shorts Ideas Instantly
 <option>Gaming</option>
 <option>Motivation</option>
 <option>Facts</option>
-<option>Story</option>
 <option>Business</option>
+<option>Story</option>
 <option>AI</option>
 
 </select>
@@ -125,11 +129,31 @@ id="topic"
 placeholder="Enter your topic..."
 >
 
-<button onclick="generateContent()">
+<button onclick="generateIdeas()">
 Generate Viral Content
 </button>
 
-<div id="result"></div>
+<div class="result" id="result">
+
+<h2>🔥 Viral Title</h2>
+<p id="title"></p>
+
+<h2>🎯 Thumbnail Text</h2>
+<p id="thumb"></p>
+
+<h2>⚡ Hook</h2>
+<p id="hook"></p>
+
+<h2>🎬 Shorts Idea</h2>
+<p id="idea"></p>
+
+<button
+class="copyBtn"
+onclick="copyContent()">
+📋 Copy Content
+</button>
+
+</div>
 
 </div>
 
@@ -141,16 +165,13 @@ Made with ❤️ by ViralForge AI
 
 <script>
 
-function generateContent(){
+function generateIdeas(){
 
     const topic =
     document.getElementById("topic").value;
 
     const category =
     document.getElementById("category").value;
-
-    const result =
-    document.getElementById("result");
 
     if(topic === ""){
 
@@ -163,13 +184,27 @@ function generateContent(){
 
         `${topic} Secrets Nobody Knows 😱`,
 
-        `This ${topic} Story Will Shock You 🔥`,
+        `The Dark Truth About ${topic}`,
 
         `${topic} Facts That Sound Fake 🤯`,
 
         `Why Everyone Is Talking About ${topic}`,
 
-        `The Dark Truth About ${topic}`
+        `This ${topic} Story Will Shock You 🔥`
+
+    ];
+
+    const thumbs = [
+
+        `THIS CHANGED EVERYTHING`,
+
+        `DON'T IGNORE THIS`,
+
+        `SECRET EXPOSED`,
+
+        `VIRAL NOW`,
+
+        `UNBELIEVABLE 😳`
 
     ];
 
@@ -185,64 +220,59 @@ function generateContent(){
 
     ];
 
-    const thumbs = [
+    const ideas = [
 
-        `THIS CHANGED EVERYTHING`,
+        `Create a fast-paced ${category} video about ${topic} using suspense and emotional music.`,
 
-        `DON'T IGNORE THIS`,
+        `Make a short reel explaining shocking facts about ${topic}.`,
 
-        `SECRET EXPOSED`,
-
-        `VIRAL NOW`
+        `Create a storytelling style short around ${topic}.`
 
     ];
 
     const randomTitle =
     titles[Math.floor(Math.random()*titles.length)];
 
-    const randomHook =
-    hooks[Math.floor(Math.random()*hooks.length)];
-
     const randomThumb =
     thumbs[Math.floor(Math.random()*thumbs.length)];
 
-    result.innerHTML = `
+    const randomHook =
+    hooks[Math.floor(Math.random()*hooks.length)];
 
-    <div class="result-box">
+    const randomIdea =
+    ideas[Math.floor(Math.random()*ideas.length)];
 
-    <h2>🔥 Viral Title</h2>
-    <p>${randomTitle}</p>
+    document.getElementById("result").style.display =
+    "block";
 
-    <h2>🎯 Thumbnail Text</h2>
-    <p>${randomThumb}</p>
+    document.getElementById("title").innerText =
+    randomTitle;
 
-    <h2>⚡ Hook</h2>
-    <p>${randomHook}</p>
+    document.getElementById("thumb").innerText =
+    randomThumb;
 
-    <h2>🎬 Shorts Idea</h2>
+    document.getElementById("hook").innerText =
+    randomHook;
 
-    <p>
-    Create a fast-paced ${category}
-    video about ${topic}
-    using suspense, captions
-    and emotional music.
-    </p>
+    document.getElementById("idea").innerText =
+    randomIdea;
 
-    <button
-    class="copy-btn"
-    onclick="copyContent()">
-    📋 Copy
-    </button>
-
-    </div>
-
-    `;
 }
 
 function copyContent(){
 
     const text =
-    document.querySelector(".result-box").innerText;
+
+    document.getElementById("title").innerText
+    + "\n\n" +
+
+    document.getElementById("thumb").innerText
+    + "\n\n" +
+
+    document.getElementById("hook").innerText
+    + "\n\n" +
+
+    document.getElementById("idea").innerText;
 
     navigator.clipboard.writeText(text);
 
