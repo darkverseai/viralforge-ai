@@ -1,50 +1,37 @@
-export default async function handler(req, res) {
+async function generateContent() {
+
+  const topic =
+    document.getElementById("topic").value;
+
+  const result =
+    document.getElementById("result");
+
+  result.innerHTML = "Loading...";
 
   try {
 
-    const { message } = req.body;
+    const response = await fetch("/api/chat", {
 
-    const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        method: "POST",
+      method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization":
-          `Bearer ${process.env.GROQ_API_KEY}`
-        },
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-        body: JSON.stringify({
+      body: JSON.stringify({
+        message:
+        `Create viral YouTube content ideas about ${topic}`
+      })
 
-          model: "llama3-70b-8192",
-
-          messages: [
-            {
-              role: "user",
-              content: message
-            }
-          ]
-
-        })
-
-      }
-    );
+    });
 
     const data = await response.json();
 
-    const reply =
-      data?.choices?.[0]?.message?.content;
-
-    res.status(200).json({
-      reply: reply || "No response"
-    });
+    result.innerHTML = data.reply;
 
   } catch (error) {
 
-    res.status(500).json({
-      reply: "Server Error"
-    });
+    result.innerHTML = "AI Failed";
 
   }
 
